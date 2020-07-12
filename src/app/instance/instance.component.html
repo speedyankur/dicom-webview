@@ -1,0 +1,24 @@
+<div class="container">
+  <br />
+  <div class="row">
+    <div class="col-4" *ngFor="let instance of instances">
+      <mat-card class="series-card">
+        <mat-card-header>
+          <ngx-avatar
+            mat-card-avatar
+            [name]="instance.IndexInSeries"
+          ></ngx-avatar>
+          <mat-card-title>Instance {{ instance.IndexInSeries }}</mat-card-title>
+          <mat-card-subtitle
+            >File Size {{ instance.FileSize }}</mat-card-subtitle
+          >
+        </mat-card-header>
+        <img
+          mat-card-image
+          src="instances/{{ instance.ID }}/preview"
+          alt="Instance photo"
+        />
+      </mat-card>
+    </div>
+  </div>
+</div>

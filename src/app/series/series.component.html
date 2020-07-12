@@ -22,9 +22,18 @@
             [matBadge]="item.Instances?.length"
             matBadgePosition="after"
             matBadgeColor="accent"
-            routerLink="/instance/{{ item.ID }}"
+            routerLink="/instancesView/{{ item.ID }}"
           >
             Instances
+          </button>
+          &nbsp;
+          <button
+            mat-raised-button
+            matBadgeColor="accent"
+            color="primary"
+            routerLink="/instancePreview/{{ item.ID }}"
+          >
+            Preview
           </button>
         </mat-card-actions>
       </mat-card>

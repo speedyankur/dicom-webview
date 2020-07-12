@@ -12,9 +12,10 @@ import { AvatarModule } from 'ngx-avatar';
 import { SearchPatientsComponent } from './search-patients/search-patients.component';
 import { StudyComponent } from './study/study.component';
 import { SeriesComponent } from './series/series.component';
+import { InstanceComponent } from './instance/instance.component';
 
 @NgModule({
-  declarations: [AppComponent, SearchPatientsComponent, StudyComponent, SeriesComponent],
+  declarations: [AppComponent, SearchPatientsComponent, StudyComponent, SeriesComponent, InstanceComponent],
   imports: [
     BrowserModule,
     AvatarModule,

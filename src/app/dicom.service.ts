@@ -5,14 +5,12 @@ import { Observable, of } from 'rxjs';
 import { Patient } from './models/Patient';
 import { Study } from './models/Study';
 import { Series } from './models/Series';
+import { Instance } from './models/Instance';
 @Injectable({
   providedIn: 'root'
 })
 export class DicomService {
-
-
   private patientsUrl = '/patients?expand';
-
   constructor(private http: HttpClient) {}
 
   /**
@@ -42,6 +40,16 @@ export class DicomService {
     return this.http
       .get<Series[]>(seriesUrl)
       .pipe(catchError(this.handleError<Series[]>('getSeriesForStudies', [])));
+  }
+  /**
+   * GER all instances for a series
+   * @param id Series ID
+   */
+  getInstancesForSeries(id: string) {
+    const instancesUrl = `/series/${id}/instances`;
+    return this.http
+      .get<Instance[]>(instancesUrl)
+      .pipe(catchError(this.handleError<Instance[]>('getInstancesForSeries', [])));
   }
   /**
    * Handle Http operation that failed.

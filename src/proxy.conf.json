@@ -8,5 +8,15 @@
     "target": "http://localhost:8042",
     "secure": false,
     "logLevel": "debug"
+  },
+  "/series": {
+    "target": "http://localhost:8042",
+    "secure": false,
+    "logLevel": "debug"
+  },
+  "/instance": {
+    "target": "http://localhost:8042",
+    "secure": false,
+    "logLevel": "debug"
   }
 }
