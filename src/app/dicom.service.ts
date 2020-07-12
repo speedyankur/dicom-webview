@@ -6,13 +6,18 @@ import { Patient } from './models/Patient';
 import { Study } from './models/Study';
 import { Series } from './models/Series';
 import { Instance } from './models/Instance';
+import { environment } from '../environments/environment';
 @Injectable({
   providedIn: 'root'
 })
 export class DicomService {
-  APIRootUrl = '/orthanc';
+  APIRootUrl = environment.production?'/orthanc':'';
 
   constructor(private http: HttpClient) {}
+
+  getAPIRoot(){
+    return environment.production?'/orthanc':'';
+  }
 
   /**
    * GET all Patients

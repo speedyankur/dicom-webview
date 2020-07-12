@@ -23,4 +23,8 @@ export class InstanceComponent implements OnInit {
     const id = this.route.snapshot.paramMap.get('id');
     this.ds.getInstancesForSeries(id).subscribe(s => (this.instances = s));
   }
+
+  get apiRoot():string{
+    return this.ds.getAPIRoot();
+  }
 }
