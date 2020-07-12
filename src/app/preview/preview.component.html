@@ -4,7 +4,7 @@
       <button mat-icon-button (click)="loadBefore()">
         <mat-icon>navigate_before</mat-icon>
       </button>
-      {{ this.currentIndex + 1 }} of {{ this.instances.length }}
+      {{ this.currentIndex + 1 }} of {{ this.instances?.length }}
       <button (click)="loadNext()" mat-icon-button>
         <mat-icon>navigate_next</mat-icon>
       </button>
