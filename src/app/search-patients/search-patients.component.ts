@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { DicomService } from '../dicom.service';
+import { Patient } from '../models/Patient';
 
 @Component({
   selector: 'app-search-patients',
@@ -6,10 +8,13 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./search-patients.component.scss']
 })
 export class SearchPatientsComponent implements OnInit {
-
-  constructor() { }
+  patients:Patient[];
+  constructor(private ds:DicomService) { }
 
   ngOnInit(): void {
+    this.ds.getPatients().subscribe(ps=>{
+      this.patients=ps;
+    })
   }
 
 }

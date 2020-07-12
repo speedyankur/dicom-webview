@@ -1,1 +1,32 @@
-<p>search-patients works!</p>
+<div class="container">
+  <br />
+  <div class="row">
+    <div class="col-4" *ngFor="let patient of patients">
+      <mat-card class="patient-card">
+        <mat-card-header>
+          <ngx-avatar
+            mat-card-avatar
+            [name]="patient.MainDicomTags?.PatientName"
+          ></ngx-avatar>
+          <mat-card-title>{{
+            patient.MainDicomTags?.PatientName
+          }}</mat-card-title>
+          <mat-card-subtitle>{{
+            patient.MainDicomTags?.PatientBirthDate | date
+          }}</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-actions>
+          <button
+            mat-raised-button
+            color="primary"
+            [matBadge]="patient.Studies?.length"
+            matBadgePosition="after"
+            matBadgeColor="accent"
+          >
+            Study
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </div>
+</div>
