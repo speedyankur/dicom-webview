@@ -10,15 +10,17 @@ import { Instance } from './models/Instance';
   providedIn: 'root'
 })
 export class DicomService {
-  private patientsUrl = '/patients?expand';
+  APIRootUrl = '/orthanc';
+
   constructor(private http: HttpClient) {}
 
   /**
    * GET all Patients
    */
   getPatients(): Observable<Patient[]> {
+    const patientsUrl = `${this.APIRootUrl}/patients?expand`;
     return this.http
-      .get<Patient[]>(this.patientsUrl)
+      .get<Patient[]>(patientsUrl)
       .pipe(catchError(this.handleError<Patient[]>('getHeroes', [])));
   }
   /**
@@ -26,7 +28,7 @@ export class DicomService {
    * @param id Patient ID
    */
   getStudiesForPatient(id: string) {
-    const studiesUrl = `/patients/${id}/studies`;
+    const studiesUrl = `${this.APIRootUrl}/patients/${id}/studies`;
     return this.http
       .get<Study[]>(studiesUrl)
       .pipe(catchError(this.handleError<Study[]>('getStudiesForPatient', [])));
@@ -36,7 +38,7 @@ export class DicomService {
    * @param id study ID
    */
   getSeriesForStudies(id: string) {
-    const seriesUrl = `/studies/${id}/series`;
+    const seriesUrl = `${this.APIRootUrl}/studies/${id}/series`;
     return this.http
       .get<Series[]>(seriesUrl)
       .pipe(catchError(this.handleError<Series[]>('getSeriesForStudies', [])));
@@ -46,7 +48,7 @@ export class DicomService {
    * @param id Series ID
    */
   getInstancesForSeries(id: string) {
-    const instancesUrl = `/series/${id}/instances`;
+    const instancesUrl = `${this.APIRootUrl}/series/${id}/instances`;
     return this.http
       .get<Instance[]>(instancesUrl)
       .pipe(catchError(this.handleError<Instance[]>('getInstancesForSeries', [])));
