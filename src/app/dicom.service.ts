@@ -4,10 +4,12 @@ import { catchError, map, tap } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 import { Patient } from './models/Patient';
 import { Study } from './models/Study';
+import { Series } from './models/Series';
 @Injectable({
   providedIn: 'root'
 })
 export class DicomService {
+
 
   private patientsUrl = '/patients?expand';
 
@@ -30,6 +32,16 @@ export class DicomService {
     return this.http
       .get<Study[]>(studiesUrl)
       .pipe(catchError(this.handleError<Study[]>('getStudiesForPatient', [])));
+  }
+  /**
+   * GET all seris for a study
+   * @param id study ID
+   */
+  getSeriesForStudies(id: string) {
+    const seriesUrl = `/studies/${id}/series`;
+    return this.http
+      .get<Series[]>(seriesUrl)
+      .pipe(catchError(this.handleError<Series[]>('getSeriesForStudies', [])));
   }
   /**
    * Handle Http operation that failed.

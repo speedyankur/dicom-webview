@@ -1,0 +1,33 @@
+<div class="container">
+  <br />
+  <div class="row">
+    <div class="col-4" *ngFor="let item of series">
+      <mat-card class="series-card">
+        <mat-card-header>
+          <ngx-avatar
+            mat-card-avatar
+            [name]="item.MainDicomTags?.SeriesDescription"
+          ></ngx-avatar>
+          <mat-card-title>{{
+            item.MainDicomTags?.SeriesDescription
+          }}</mat-card-title>
+          <mat-card-subtitle>{{
+            item.MainDicomTags?.SeriesDate | date
+          }}</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-actions>
+          <button
+            mat-raised-button
+            color="primary"
+            [matBadge]="item.Instances?.length"
+            matBadgePosition="after"
+            matBadgeColor="accent"
+            routerLink="/instance/{{ item.ID }}"
+          >
+            Instances
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </div>
+</div>

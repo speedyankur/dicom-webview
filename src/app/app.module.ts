@@ -11,9 +11,10 @@ import { MatBadgeModule } from '@angular/material/badge';
 import { AvatarModule } from 'ngx-avatar';
 import { SearchPatientsComponent } from './search-patients/search-patients.component';
 import { StudyComponent } from './study/study.component';
+import { SeriesComponent } from './series/series.component';
 
 @NgModule({
-  declarations: [AppComponent, SearchPatientsComponent, StudyComponent],
+  declarations: [AppComponent, SearchPatientsComponent, StudyComponent, SeriesComponent],
   imports: [
     BrowserModule,
     AvatarModule,
