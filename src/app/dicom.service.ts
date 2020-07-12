@@ -3,20 +3,34 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map, tap } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 import { Patient } from './models/Patient';
+import { Study } from './models/Study';
 @Injectable({
   providedIn: 'root'
 })
 export class DicomService {
+
   private patientsUrl = '/patients?expand';
+
   constructor(private http: HttpClient) {}
 
-  /** GET all Patients from the server */
+  /**
+   * GET all Patients
+   */
   getPatients(): Observable<Patient[]> {
     return this.http
       .get<Patient[]>(this.patientsUrl)
       .pipe(catchError(this.handleError<Patient[]>('getHeroes', [])));
   }
-
+  /**
+   * GET all studies for a Patient
+   * @param id Patient ID
+   */
+  getStudiesForPatient(id: string) {
+    const studiesUrl = `/patients/${id}/studies`;
+    return this.http
+      .get<Study[]>(studiesUrl)
+      .pipe(catchError(this.handleError<Study[]>('getStudiesForPatient', [])));
+  }
   /**
    * Handle Http operation that failed.
    * Let the app continue.
