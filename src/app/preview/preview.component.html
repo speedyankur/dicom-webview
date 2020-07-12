@@ -1,0 +1,50 @@
+<div class="container">
+  <div class="row">
+    <div class="col-3">
+      <button mat-icon-button (click)="loadBefore()">
+        <mat-icon>navigate_before</mat-icon>
+      </button>
+      {{ this.currentIndex + 1 }} of {{ this.instances.length }}
+      <button (click)="loadNext()" mat-icon-button>
+        <mat-icon>navigate_next</mat-icon>
+      </button>
+    </div>
+    <div class="col-3">
+      Brightness
+      <mat-slider
+        thumbLabel
+        step="0.05"
+        min="-1"
+        [(ngModel)]="brightenLevel"
+        (ngModelChange)="onBrightnessChange()"
+        max="1"
+      ></mat-slider>
+    </div>
+    <div class="col-3">
+      Noise
+      <mat-slider
+        thumbLabel
+        step="0.1"
+        min="0"
+        [(ngModel)]="noiseLevel"
+        (ngModelChange)="onNoiseChange()"
+        max="4"
+      ></mat-slider>
+    </div>
+    <div class="col-3">
+      Mask
+      <mat-slider
+        thumbLabel
+        step="1"
+        min="0"
+        [(ngModel)]="maskLevel"
+        (ngModelChange)="onMaskChange()"
+        max="100"
+      ></mat-slider>
+    </div>
+    <div class="col-12"><mat-divider></mat-divider></div>
+    <div class="col-12">
+      <div id="container"></div>
+    </div>
+  </div>
+</div>

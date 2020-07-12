@@ -4,11 +4,13 @@ import { SearchPatientsComponent } from './search-patients/search-patients.compo
 import { StudyComponent } from './study/study.component';
 import { SeriesComponent } from './series/series.component';
 import { InstanceComponent } from './instance/instance.component';
+import { PreviewComponent } from './preview/preview.component';
 
 const routes: Routes = [
   { path: 'patientSearch', component: SearchPatientsComponent },
   { path: 'studiesView/:id', component: StudyComponent },
   { path: 'seriesView/:id', component: SeriesComponent },
+  { path: 'allInstancesPreview/:id', component: PreviewComponent },
   { path: 'instancesView/:id', component: InstanceComponent },
   { path: '', redirectTo: '/patientSearch', pathMatch: 'full' }
 ];
