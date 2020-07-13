@@ -61,7 +61,7 @@ export class PreviewComponent implements OnInit {
   }
   async play(){
     this.isPlaying=!this.isPlaying;
-    while(this.isPlaying){
+    while(this.isPlaying && this.currentIndex < this.instances.length - 1){
       await this.loadNext()
     }
   }
