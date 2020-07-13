@@ -14,17 +14,25 @@ import { StudyComponent } from './study/study.component';
 import { SeriesComponent } from './series/series.component';
 import { InstanceComponent } from './instance/instance.component';
 import { PreviewComponent } from './preview/preview.component';
-import {MatDividerModule} from '@angular/material/divider';
-import {MatIconModule} from '@angular/material/icon';
-import {MatSliderModule} from '@angular/material/slider';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatIconModule } from '@angular/material/icon';
+import { MatSliderModule } from '@angular/material/slider';
 import { FormsModule } from '@angular/forms';
-
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 
 @NgModule({
-  declarations: [AppComponent, SearchPatientsComponent, StudyComponent, SeriesComponent, InstanceComponent, PreviewComponent],
+  declarations: [
+    AppComponent,
+    SearchPatientsComponent,
+    StudyComponent,
+    SeriesComponent,
+    InstanceComponent,
+    PreviewComponent
+  ],
   imports: [
     BrowserModule,
     AvatarModule,
+    MatButtonToggleModule,
     MatBadgeModule,
     MatDividerModule,
     MatSliderModule,

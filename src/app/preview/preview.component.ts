@@ -8,8 +8,14 @@ import Konva from 'konva';
 // declare window to remove typescript warning
 interface Window {
   Image: any;
+  location: any;
+}
+interface Document {
+  createElement: any;
+  body: any;
 }
 declare const window: Window;
+declare const document: Document;
 @Component({
   selector: 'app-preview',
   templateUrl: './preview.component.html',
@@ -18,11 +24,14 @@ declare const window: Window;
 export class PreviewComponent implements OnInit {
   private stage: Konva.Stage;
   private layer: Konva.Layer;
+  private drawingLayer: Konva.Layer;
   private image: Konva.Image;
   private scaleBy = 1.01;
   public brightenLevel = 0;
-  public noiseLevel = 0;
+  public noiseLevel = 0.1;
   public maskLevel = 20;
+  public isPlaying:boolean;
+  private player:any;
 
   instances: Instance[];
   images: Array<any> = [];
@@ -50,6 +59,12 @@ export class PreviewComponent implements OnInit {
       }
     });
   }
+  async play(){
+    this.isPlaying=!this.isPlaying;
+    while(this.isPlaying){
+      await this.loadNext()
+    }
+  }
   setUpStage() {
     const image = new window.Image();
     image.src = `${this.apiRoot}/instances/${
@@ -63,17 +78,56 @@ export class PreviewComponent implements OnInit {
       });
       this.layer = new Konva.Layer();
       this.stage.add(this.layer);
+      this.drawingLayer = new Konva.Layer();
+      this.stage.add(this.drawingLayer);
       this.handleZoom();
+      this.setupDrawing();
       this.loadCurrentIndexImage();
+
     };
+
   }
 
-  private loadCurrentIndexImage() {
-    Konva.Image.fromURL(
-      `${this.apiRoot}/instances/${
-        this.instances[this.currentIndex].ID
-      }/preview`,
-      image => {
+  isPaint = false;
+  mode = 'brush';
+  lastLine;
+  setupDrawing() {
+    this.stage.on('mousedown touchstart', e => {
+      this.isPaint = true;
+      var pos = this.stage.getPointerPosition();
+      this.lastLine = new Konva.Line({
+        stroke: '#df4b26',
+        strokeWidth: this.mode === 'brush' ? 4 : 10,
+        globalCompositeOperation:
+          this.mode === 'brush' ? 'source-over' : 'destination-out',
+        points: [pos.x, pos.y]
+      });
+      this.drawingLayer.add(this.lastLine);
+    });
+
+    this.stage.on('mouseup touchend', () => {
+      this.isPaint = false;
+    });
+
+    // and core function - drawing
+    this.stage.on('mousemove touchmove', () => {
+      if (!this.isPaint) {
+        return;
+      }
+
+      const pos = this.stage.getPointerPosition();
+      var newPoints = this.lastLine.points().concat([pos.x, pos.y]);
+      this.lastLine.points(newPoints);
+      this.drawingLayer.batchDraw();
+    });
+  }
+
+  private async loadCurrentIndexImage() {
+    const url = `${this.apiRoot}/instances/${
+      this.instances[this.currentIndex].ID
+    }/preview`;
+    return new Promise((resolve, reject) => {
+      Konva.Image.fromURL(url, image => {
         this.image = image;
         this.image.setAttrs({
           x: 0,
@@ -87,10 +141,15 @@ export class PreviewComponent implements OnInit {
           Konva.Filters.Noise,
           Konva.Filters.Mask
         ]);
+        this.layer.destroyChildren();
         this.layer.add(this.image);
         this.layer.batchDraw();
-      }
-    );
+        this.drawingLayer.destroyChildren();
+        this.drawingLayer.batchDraw();
+        resolve();
+      });
+    });
+
   }
 
   loadBefore() {
@@ -101,15 +160,35 @@ export class PreviewComponent implements OnInit {
     }
   }
 
-  loadNext() {
+  async loadNext() {
     if (this.currentIndex < this.instances.length - 1) {
       this.currentIndex++;
-      this.loadCurrentIndexImage();
+      console.log("loading", this.currentIndex);
+      await this.loadCurrentIndexImage();
+      console.log("loaded", this.currentIndex);
       this.resetSettings();
     }
   }
 
+  save() {
+    var dataURL = this.stage.toDataURL({ pixelRatio: 3 });
+    this.downloadCanvasAsImage(dataURL);
+  }
+
+  private downloadCanvasAsImage(dataURL) {
+    let downloadLink = document.createElement('a');
+    downloadLink.setAttribute('download', 'CanvasAsImage.png');
+    let url = dataURL.replace(
+      /^data:image\/png/,
+      'data:application/octet-stream'
+    );
+    downloadLink.setAttribute('href', url);
+    downloadLink.click();
+  }
+
   private resetSettings() {
+    this.noiseLevel = 0.1;
+    this.maskLevel = 20;
     this.brightenLevel = 0;
     this.resetScale();
   }
