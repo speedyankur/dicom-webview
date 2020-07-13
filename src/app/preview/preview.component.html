@@ -30,7 +30,7 @@
         <mat-icon *ngIf="isPlaying">pause_circle_filled</mat-icon>
       </button>
     </div>
-    <div class="col-6">
+    <div class="col-3">
       Brightness
       <mat-slider
         thumbLabel
@@ -39,6 +39,18 @@
         [(ngModel)]="brightenLevel"
         (ngModelChange)="onBrightnessChange()"
         max="1"
+      ></mat-slider>
+    </div>
+
+    <div class="col-3">
+      Mask
+      <mat-slider
+        thumbLabel
+        step="1"
+        min="0"
+        [(ngModel)]="maskLevel"
+        (ngModelChange)="onMaskChange()"
+        max="100"
       ></mat-slider>
     </div>
     <div class="col-12"><mat-divider></mat-divider></div>
