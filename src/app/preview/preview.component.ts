@@ -28,6 +28,7 @@ export class PreviewComponent implements OnInit {
   private image: Konva.Image;
   private scaleBy = 1.01;
   public brightenLevel = 0;
+  public noiseLevel = 0.1;
   public maskLevel = 20;
   public isPlaying:boolean;
   private player:any;
@@ -137,6 +138,7 @@ export class PreviewComponent implements OnInit {
         this.image.cache();
         this.image.filters([
           Konva.Filters.Brighten,
+          Konva.Filters.Noise,
           Konva.Filters.Mask
         ]);
         this.layer.destroyChildren();
@@ -185,6 +187,7 @@ export class PreviewComponent implements OnInit {
   }
 
   private resetSettings() {
+    this.noiseLevel = 0.1;
     this.maskLevel = 20;
     this.brightenLevel = 0;
     this.resetScale();
@@ -192,6 +195,11 @@ export class PreviewComponent implements OnInit {
 
   public onBrightnessChange() {
     this.image.brightness(this.brightenLevel);
+    this.layer.batchDraw();
+  }
+
+  public onNoiseChange() {
+    this.image.noise(this.noiseLevel);
     this.layer.batchDraw();
   }
 
